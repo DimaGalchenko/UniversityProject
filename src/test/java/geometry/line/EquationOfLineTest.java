@@ -12,7 +12,7 @@ class EquationOfLineTest {
                 {1, 1},
                 {3, 4}
         };
-        float[] equationOfLine = EquationOfLine.by(twoPoints);
+        float[] equationOfLine = EquationOfLine.equationOfLineBy(twoPoints);
         float[] expectedEquationOfLine = new float[] {3, -2, -1};
         assertArrayEquals(expectedEquationOfLine, equationOfLine);
     }
@@ -23,7 +23,7 @@ class EquationOfLineTest {
                 {-1, -1},
                 {-3, -4}
         };
-        float[] equationOfLine = EquationOfLine.by(twoPoints);
+        float[] equationOfLine = EquationOfLine.equationOfLineBy(twoPoints);
         float[] expectedEquationOfLine = new float[] {-3, 2, -1};
         assertArrayEquals(expectedEquationOfLine, equationOfLine);
     }
@@ -34,7 +34,7 @@ class EquationOfLineTest {
                 {-1.5f, -1.1f},
                 {-3.23f, -4.91f}
         };
-        float[] equationOfLine = EquationOfLine.by(twoPoints);
+        float[] equationOfLine = EquationOfLine.equationOfLineBy(twoPoints);
         float[] expectedEquationOfLine = new float[] {-3.81f, 1.73f, -3.812f};
         assertArrayEquals(expectedEquationOfLine, equationOfLine);
     }
@@ -46,7 +46,7 @@ class EquationOfLineTest {
                 {-3.23f, -4.91f},
                 {-0.23f, -5.91f}
         };
-        assertThrows(EquationOfLineException.class, () -> EquationOfLine.by(threePoints));
+        assertThrows(EquationOfLineException.class, () -> EquationOfLine.equationOfLineBy(threePoints));
     }
 
     @Test
@@ -54,7 +54,7 @@ class EquationOfLineTest {
         float[][] threePoints = new float[][] {
                 {-1.5f, -1.1f},
         };
-        assertThrows(EquationOfLineException.class, () -> EquationOfLine.by(threePoints));
+        assertThrows(EquationOfLineException.class, () -> EquationOfLine.equationOfLineBy(threePoints));
     }
 
     @Test
@@ -63,7 +63,7 @@ class EquationOfLineTest {
                 { -1.1f},
                 {1, 4}
         };
-        assertThrows(EquationOfLineException.class, () -> EquationOfLine.by(threePoints));
+        assertThrows(EquationOfLineException.class, () -> EquationOfLine.equationOfLineBy(threePoints));
     }
 
     @Test
@@ -72,6 +72,6 @@ class EquationOfLineTest {
                 { -1.1f, 2},
                 {1}
         };
-        assertThrows(EquationOfLineException.class, () -> EquationOfLine.by(threePoints));
+        assertThrows(EquationOfLineException.class, () -> EquationOfLine.equationOfLineBy(threePoints));
     }
 }

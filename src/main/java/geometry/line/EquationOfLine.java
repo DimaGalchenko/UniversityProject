@@ -2,7 +2,7 @@ package geometry.line;
 
 import java.util.Arrays;
 
-public class EquationOfLine {
+public abstract class EquationOfLine {
     public static final int POINT_COORDINATE_COUNT = 2;
     public static final int TWO_POINT_COUNT = 2;
     public static final int X_INDEX = 0;
@@ -11,27 +11,19 @@ public class EquationOfLine {
     public static final int B_COEFFICIENT_OF_LINE_EQUATION = 1;
     public static final int C_COEFFICIENT_OF_LINE_EQUATION = 2;
 
-    public static float[] by(float[][] twoPoints) throws EquationOfLineException {
-        validatePointsCount(TWO_POINT_COUNT, twoPoints);
-
-        float[] firstPoint = validateAndGetPoint(twoPoints[0]);
-        float[] secondPoint = validateAndGetPoint(twoPoints[1]);
-
-        float a = secondPoint[Y_INDEX] - firstPoint[Y_INDEX];
-        float b = firstPoint[X_INDEX] - secondPoint[X_INDEX];
-        float c = -a * firstPoint[X_INDEX] - b * firstPoint[Y_INDEX];
-        return new float[]{a, b, c};
+    public static float[] equationOfLineBy(float[][] twoPoints) {
+        return by(twoPoints);
     }
 
-    public static float[] parallelBy(float[][] twoPoints, float[] pointOfParallelLine) throws EquationOfLineException {
+    public static float[] equationOfParallelBy(float[][] twoPoints, float[] pointOfParallelLine) {
         return EquationOfLine.by(LinePosition.PARALLEL, twoPoints, pointOfParallelLine);
     }
 
-    public static float[] orthogonalBy(float[][] twoPoints, float[] pointOfOrthogonalLine) throws EquationOfLineException {
+    public static float[] equationOfOrthogonalBy(float[][] twoPoints, float[] pointOfOrthogonalLine) {
         return EquationOfLine.by(LinePosition.ORTHOGONAL, twoPoints, pointOfOrthogonalLine);
     }
 
-    private static float[] by(LinePosition linePosition, float[][] twoPoints, float[] pointOfAnotherLine) throws EquationOfLineException {
+    private static float[] by(LinePosition linePosition, float[][] twoPoints, float[] pointOfAnotherLine) {
         validatePointsCount(TWO_POINT_COUNT, twoPoints);
         validateAndGetPoint(pointOfAnotherLine);
 
@@ -56,22 +48,34 @@ public class EquationOfLine {
         });
     }
 
-    private static float[] validateAndGetPoint(float[] point) throws EquationOfLineException {
+    private static float[] by(float[][] twoPoints) {
+        validatePointsCount(TWO_POINT_COUNT, twoPoints);
+
+        float[] firstPoint = validateAndGetPoint(twoPoints[0]);
+        float[] secondPoint = validateAndGetPoint(twoPoints[1]);
+
+        float a = secondPoint[Y_INDEX] - firstPoint[Y_INDEX];
+        float b = firstPoint[X_INDEX] - secondPoint[X_INDEX];
+        float c = -a * firstPoint[X_INDEX] - b * firstPoint[Y_INDEX];
+        return new float[]{a, b, c};
+    }
+
+    private static float[] validateAndGetPoint(float[] point) {
         validatePoint(point);
         return point;
     }
 
-    private static void validatePointsCount(int countOfPoints, float[][] points) throws EquationOfLineException {
+    private static void validatePointsCount(int countOfPoints, float[][] points) {
         if (points.length != countOfPoints) {
-            throw new EquationOfLineException(
+            throw new IllegalArgumentException(
                     String.format("%s points must be passed, but were passed: %s", countOfPoints, points.length)
             );
         }
     }
 
-    private static void validatePoint(float[] point) throws EquationOfLineException {
+    private static void validatePoint(float[] point) {
         if (point.length != POINT_COORDINATE_COUNT) {
-            throw new EquationOfLineException(
+            throw new IllegalArgumentException(
                     String.format(
                             "The point must consist of two coordinates [x, y], but now consist of: %s",
                             Arrays.toString(point)
@@ -79,4 +83,5 @@ public class EquationOfLine {
             );
         }
     }
+
 }
