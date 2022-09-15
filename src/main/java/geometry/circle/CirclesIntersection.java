@@ -53,7 +53,7 @@ public abstract class CirclesIntersection {
         }
     }
 
-    public static float[][] findCirclesIntersects(float[][] firstCircleParameters, float[][] secondCircleParameters) {
+    private static float[][] findCirclesIntersects(float[][] firstCircleParameters, float[][] secondCircleParameters) {
         float x1 = firstCircleParameters[0][X_INDEX];
         float y1 = firstCircleParameters[0][Y_INDEX];
 
