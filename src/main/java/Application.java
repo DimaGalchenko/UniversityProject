@@ -45,20 +45,20 @@ public class Application extends PApplet {
 //        }
 
 
-        for(int i = 0; i < 600; i=i+10) {
+        for(int i = 50; i < 600; i=i+10) {
             float y1 = (float) (Math.sin(i / 100.0) * 40);
             float y2 = (float) (Math.cos(i / 100.0) * 40);
 
-            float[] circleCoord1 = new float[]{i, y1 + 300};
             float r1 = 30;
-            float[] circleCoord2 = new float[]{i, y2 + 300};
+            float[][] circleCoord1 = new float[][]{{i, y1 + 300}, {r1}};
+
             float r2 = 30;
+            float[][] circleCoord2 = new float[][]{{i, y2 + 300}, {r2}};
+
 
             float[][] iter = CirclesIntersection.findIntersectionOfTwoCircles(
                     circleCoord1,
-                    r1,
-                    circleCoord2,
-                    r2
+                    circleCoord2
             );
 
             float[] i1 = iter[0];
@@ -67,18 +67,16 @@ public class Application extends PApplet {
             color(255);
             noFill();
 
-            circle(circleCoord1[0], circleCoord1[1], r1 * 2);
-            circle(circleCoord2[0], circleCoord2[1], r2 * 2);
+            circle(circleCoord1[0][0], circleCoord1[0][1], r1 * 2);
+            circle(circleCoord2[0][0], circleCoord2[0][1], r2 * 2);
             circle(i1[0], i1[1], 5);
             circle(i2[0], i2[1], 5);
-
+            return;
         }
     }
 
     public static void main(String... args) {
         String[] strings = new String[]{"Application"};
         PApplet.main(strings);
-
-
     }
 }
