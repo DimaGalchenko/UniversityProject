@@ -1,7 +1,6 @@
+import geometry.circle.CirclesIntersection;
 import geometry.line.EquationOfLine;
 import processing.core.PApplet;
-
-import java.util.Arrays;
 
 public class Application extends PApplet {
 
@@ -11,67 +10,89 @@ public class Application extends PApplet {
     }
 
     public void draw() {
-        background(1200f);
+//        background(1200f);
 
-        float[][] twoDots = new float[2][2];
-        float[] dot1 = new float[]{1f, 1f};
-        float[] dot2 = new float[]{100f, 100f};
-        twoDots[0] = dot1;
-        twoDots[1]  = dot2;
-        try {
-            float[] lineCoef = EquationOfLine.equationOfLineBy(twoDots);
-            float x1 = 0;
-            float y1 = (-1 * lineCoef[0] * x1 - lineCoef[2])/lineCoef[1];
-            float x2 = 800;
-            float y2 = (-1 * lineCoef[0] * x2 - lineCoef[2])/lineCoef[1];
-            line(x1, y1, x2, y2);
-            float[] paralLineCoef = EquationOfLine.equationOfParallelBy(twoDots, new float[] {100, 0});
-            System.out.println(Arrays.toString(paralLineCoef));
-            float x3 = 20;
-            float y3 = (-1 * paralLineCoef[0] * x3 - paralLineCoef[2])/paralLineCoef[1];
-            float x4 = 400;
-            float y4 = (-1 * paralLineCoef[0] * x4 - paralLineCoef[2])/paralLineCoef[1];
-            line(x3, y3, x4, y4);
-            float[] orthoLineCoef = EquationOfLine.equationOfOrthogonalBy(twoDots, new float[] {100, 500});
-            System.out.println(Arrays.toString(paralLineCoef));
-            float x5 = 20;
-            float y5 = (-1 * orthoLineCoef[0] * x5 - orthoLineCoef[2])/orthoLineCoef[1];
-            float x6 = 400;
-            float y6 = (-1 * orthoLineCoef[0] * x6 - orthoLineCoef[2])/orthoLineCoef[1];
-            line(x5, y5, x6, y6);
-        } catch (Exception ignore) {
-            throw new RuntimeException(ignore);
-        }
+//        for(int i = 0; i < 600; i++) {
+//
+//            float x1 = (float) Math.sin(i/100);
+//            float x2 = (float) Math.cos(i/100);
+//
+//            float[] circleCoord1 = new float[]{x1, 200};
+//            float r1 = 200;
+//            float[] circleCoord2 = new float[]{x2, 215};
+//            float r2 = 200;
+//
+//            float[][] iter = CirclesIntersection.findIntersectionOfTwoCircles(
+//                    circleCoord1,
+//                    r1,
+//                    circleCoord2,
+//                    r2
+//            );
+//
+//            float[] i1 = iter[0];
+//            float[] i2 = iter[1];
+//
+//            color(255);
+//            noFill();
+//
+//            circle(circleCoord1[0], circleCoord1[1], r1 * 2);
+//            circle(circleCoord2[0], circleCoord2[1], r2 * 2);
+//            circle(i1[0], i1[1], 5);
+//            circle(i2[0], i2[1], 5);
+//        }
+
+
+//        for(int i = 50; i < 600; i=i+10) {
+//            float y1 = (float) (Math.sin(i / 100.0) * 40);
+//            float y2 = (float) (Math.cos(i / 100.0) * 40);
+//
+//            float r1 = 30;
+//            float[][] circleCoord1 = new float[][]{{i, y1 + 300}, {r1}};
+//
+//            float r2 = 30;
+//            float[][] circleCoord2 = new float[][]{{i, y2 + 300}, {r2}};
+//
+//
+//            float[][] iter = CirclesIntersection.findIntersectionOfTwoCircles(
+//                    circleCoord1,
+//                    circleCoord2
+//            );
+//
+//            float[] i1 = iter[0];
+//            float[] i2 = iter[1];
+//
+//            color(255);
+//            noFill();
+//
+//            circle(circleCoord1[0][0], circleCoord1[0][1], r1 * 2);
+//            circle(circleCoord2[0][0], circleCoord2[0][1], r2 * 2);
+//            circle(i1[0], i1[1], 5);
+//            circle(i2[0], i2[1], 5);
+//            return;
+//        }
+//                    color(255);
+//            noFill();
+        noFill();
+        float[][] circle = new float[][]{{300, 300}, {30}};
+        float[] line = EquationOfLine.equationOfLineBy(new float[][]{{0,274},{600,274}});
+        float[][] iter = CirclesIntersection.findIntersectionOfCircleAndLine(
+                circle,
+                line
+            );
+
+        circle(circle[0][0], circle[0][1], circle[1][0] * 2);
+        line(0,274, 600, 274);
+
+        float[] i1 = iter[0];
+        float[] i2 = iter[1];
+
+        fill(255);
+        circle(i1[0], i1[1], 5);
+        circle(i2[0], i2[1], 5);
     }
 
     public static void main(String... args) {
         String[] strings = new String[]{"Application"};
         PApplet.main(strings);
-
-        float[][] twoDots = new float[2][2];
-        float[] dot1 = new float[]{1f, 1f};
-        float[] dot2 = new float[]{110f, 110f};
-        twoDots[0] = dot1;
-        twoDots[1]  = dot2;
-        try {
-            float[] lineCoef = EquationOfLine.equationOfLineBy(twoDots);
-            System.out.println(Arrays.toString(lineCoef));
-
-            float x1 = 0;
-            float y1 = (-1 * lineCoef[0] * x1 - lineCoef[2])/lineCoef[1];
-            float x2 = 800;
-            float y2 = (-1 * lineCoef[0] * x2 - lineCoef[2])/lineCoef[1];
-            //line(x1, y1, x2, y2);
-            float[] paralLineCoef = EquationOfLine.equationOfParallelBy(twoDots, new float[] {200, 40});
-            System.out.println(Arrays.toString(paralLineCoef));
-            paralLineCoef[2] = 40;
-            float x3 = 20;
-            float y3 = (-1 * paralLineCoef[0] * x3 - paralLineCoef[2])/paralLineCoef[1];
-            float x4 = 400;
-            float y4 = (-1 * paralLineCoef[0] * x4 - paralLineCoef[2])/paralLineCoef[1];
-            //line(x3, y3, x4, y4);
-        } catch (Exception ignore) {
-            throw new RuntimeException(ignore);
-        }
     }
 }

@@ -2,11 +2,12 @@ package geometry.line;
 
 import java.util.Arrays;
 
+import static geometry.constants.CoordinateIndex.X_INDEX;
+import static geometry.constants.CoordinateIndex.Y_INDEX;
+
 public abstract class EquationOfLine {
     public static final int POINT_COORDINATE_COUNT = 2;
     public static final int TWO_POINT_COUNT = 2;
-    public static final int X_INDEX = 0;
-    public static final int Y_INDEX = 1;
     public static final int A_COEFFICIENT_OF_LINE_EQUATION = 0;
     public static final int B_COEFFICIENT_OF_LINE_EQUATION = 1;
     public static final int C_COEFFICIENT_OF_LINE_EQUATION = 2;
