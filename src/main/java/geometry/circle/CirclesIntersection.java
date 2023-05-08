@@ -1,12 +1,9 @@
 package geometry.circle;
 
-import processing.core.PVector;
-
 import java.util.Arrays;
 
 import static geometry.constants.CoordinateIndex.X_INDEX;
 import static geometry.constants.CoordinateIndex.Y_INDEX;
-import static processing.core.PVector.dist;
 
 public abstract class CirclesIntersection {
     private final static int RADIUS_INDEX = 0;
@@ -132,9 +129,10 @@ public abstract class CirclesIntersection {
     }
 
     private static float distBetweenCircleCenters(float[] firstCircleCoord, float[] secondCircleCoord) {
-        return dist(
-                new PVector(firstCircleCoord[X_INDEX], firstCircleCoord[Y_INDEX]),
-                new PVector(secondCircleCoord[X_INDEX], secondCircleCoord[Y_INDEX])
-        );
+//        return dist(
+//                new PVector(firstCircleCoord[X_INDEX], firstCircleCoord[Y_INDEX]),
+//                new PVector(secondCircleCoord[X_INDEX], secondCircleCoord[Y_INDEX])
+//        );
+        return 0;
     }
 }
