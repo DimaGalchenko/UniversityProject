@@ -1,6 +1,7 @@
 package view.listeners.panel;
 
 import lombok.Getter;
+import view.component.Component2D;
 import view.component.helper.ConnectionHelper;
 import view.component.helper.ConnectionType;
 import view.component.impl.DeleteComponentButton;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 @Getter
 public class ConstructionPanel extends JPanel {
@@ -52,8 +54,18 @@ public class ConstructionPanel extends JPanel {
         buildSpace.setPreferredSize(new Dimension(0, 400));
         buildSpace.setTransferHandler(new ComponentImportTransferHandler());
         buildSpace.setLayout(null);
-        buildSpace.add(new DeleteComponentButton(33, 33, 3));
+
         add(toolBar, BorderLayout.NORTH);
         add(buildSpace, BorderLayout.CENTER);
+    }
+
+    public void removeFromBuildSpace(Component2D component) {
+        if(instance != null) {
+            component.removeSubComponents();
+            buildSpace.remove(component);
+            buildSpace.revalidate();
+            buildSpace.repaint();
+            System.out.println(Arrays.toString(buildSpace.getComponents()));
+        }
     }
 }

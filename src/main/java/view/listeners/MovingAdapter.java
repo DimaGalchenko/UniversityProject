@@ -1,6 +1,7 @@
 package view.listeners;
 
 import view.component.Component2D;
+import view.component.impl.DeleteComponentButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,24 +24,18 @@ public class MovingAdapter<T extends Component2D> extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         isSelected = !isSelected;
         if(isSelected) {
-            component.setBorder(BorderFactory.createDashedBorder(null, 2, 2));
+            component.select();
         } else {
-            component.setBorder(BorderFactory.createEmptyBorder());
+            component.select();
         }
     }
 
     public void mousePressed(MouseEvent e) {
-        if(!isSelected) {
-            mouseClicked(e);
-        }
         x = e.getXOnScreen();
         y = e.getYOnScreen();
     }
 
     public void mouseDragged(MouseEvent e) {
-        if(!isSelected) {
-            mouseClicked(e);
-        }
         Point point = e.getLocationOnScreen();
         int dx = (int) (point.getX() - x);
         int dy = (int) (point.getY() - y);

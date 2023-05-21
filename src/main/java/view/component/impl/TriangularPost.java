@@ -93,4 +93,11 @@ public class TriangularPost extends Component2D {
             startLinesPrevPoint = new Point2D.Double(startLinesX, startLinesY);
         }
     }
+
+    @Override
+    public void removeSubComponents() {
+        super.removeSubComponents();
+        remove(componentNode);
+        componentNode = null;
+    }
 }
