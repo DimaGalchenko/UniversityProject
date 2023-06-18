@@ -1,25 +1,35 @@
 package view.component.impl;
 
 import view.component.Component2D;
+import view.component.label.ComponentNameHelper;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
-public class ConnectionRod extends Component2D {
+public class ConnectionRod extends JComponent {
     protected ComponentNode firstNode;
     protected ComponentNode secondNode;
+
+    protected final static int PADDING = 15;
+
+    protected final String serialNumber;
+
+    protected int boundingWidth = 100;
+    protected int boundingHeight = 100;
     public ConnectionRod(ComponentNode firstNode, ComponentNode secondNode) {
-        super(0, 0, 0);
+
         orderNodes(firstNode, secondNode);
         firstNode.addDependency(this);
         secondNode.addDependency(this);
+        this.serialNumber = ComponentNameHelper.generateComponentNameForConnection();
         this.boundingWidth = (int) Math.abs(this.secondNode.getPositionRelatedToParent().getX() - this.firstNode.getPositionRelatedToParent().getX());
         this.boundingHeight = (int) Math.abs(this.secondNode.getPositionRelatedToParent().getY() - this.firstNode.getPositionRelatedToParent().getY());
         setBounds(
                 getMinXBetweenNodes(),
-                getMinYBetweenNodes(),
+                getMinYBetweenNodes() - PADDING,
                 boundingWidth,
-                boundingHeight
+                boundingHeight + PADDING
         );
     }
 
@@ -46,10 +56,10 @@ public class ConnectionRod extends Component2D {
         this.boundingWidth = (int) Math.abs(this.secondNode.getPositionRelatedToParent().getX() - this.firstNode.getPositionRelatedToParent().getX());
         this.boundingHeight = (int) Math.abs(this.secondNode.getPositionRelatedToParent().getY() - this.firstNode.getPositionRelatedToParent().getY());
         setBounds(
-                getMinXBetweenNodes() - 2,
-                getMinYBetweenNodes() - 2,
-                boundingWidth + 2,
-                boundingHeight + 2
+                getMinXBetweenNodes() - PADDING,
+                getMinYBetweenNodes() - PADDING,
+                boundingWidth + PADDING * 2,
+                boundingHeight + PADDING * 2
         );
     }
 
@@ -65,19 +75,28 @@ public class ConnectionRod extends Component2D {
         Line2D line2D;
         if(firstNode.getPositionRelatedToParent().getY() > secondNode.getPositionRelatedToParent().getY()) {
             line2D = new Line2D.Double(
-                    0,
-                    boundingHeight,
-                    boundingWidth,
-                    0
+                    PADDING,
+                    boundingHeight + PADDING,
+                    boundingWidth + PADDING,
+                    PADDING
             );
         } else {
             line2D = new Line2D.Double(
-                    0,
-                    0,
-                    boundingWidth ,
-                    boundingHeight
+                    PADDING,
+                    PADDING,
+                    boundingWidth + PADDING,
+                    boundingHeight + PADDING
             );
         }
+
+        Font font = new Font("Serif", Font.PLAIN, 19);
+        g.setColor(Color.BLUE);
+        g.setFont(font);
+        graphics.drawString(serialNumber,
+                (boundingWidth + PADDING * 2) / 2,
+                (int) ((boundingHeight + PADDING * 1.8)  / 2));
+        g.setColor(Color.BLACK);
+
         graphics.draw(line2D);
 
     }

@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.util.Arrays;
 
 public class ComponentImportTransferHandler extends TransferHandler {
     public static final DataFlavor SUPPORTED_DATE_FLAVOR = DataFlavor.stringFlavor;

@@ -2,25 +2,34 @@ package view.component;
 
 import lombok.Getter;
 import lombok.Setter;
-import view.Window;
+import view.component.helper.SelectHelper;
+import view.component.impl.ComponentNode;
 import view.component.impl.DeleteComponentButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-public abstract class Component2D extends JComponent {
+public abstract class Component2D extends AbstractButton {
 
     protected int xPosition;
     protected int yPosition;
     protected double scale;
     protected int boundingWidth = 100;
     protected int boundingHeight = 100;
+    protected int rotateAngle = 0;
+    private static final Color selectedColor = Color.magenta;
+    private static final Color notSelectedColor = Color.BLACK;
+    protected Color currentColor = notSelectedColor;
 
     private DeleteComponentButton deleteComponentButton;
+
+    protected List<JComponent> subComponents = new ArrayList<>();
 
     protected boolean select = false;
 
@@ -30,15 +39,25 @@ public abstract class Component2D extends JComponent {
         this.scale = scale;
     }
 
+    public Component2D(int xPosition, int yPosition, double scale, int rotateAngle) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.scale = scale;
+        this.rotateAngle = rotateAngle;
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D graphics = (Graphics2D) g;
-
-        if(deleteComponentButton == null) {
-            deleteComponentButton = new DeleteComponentButton(boundingWidth - 20, 0, this);
+        if(!(this instanceof ComponentNode)) {
+            g.setColor(currentColor);
         }
-        add(deleteComponentButton);
+//        if(deleteComponentButton == null) {
+//            deleteComponentButton = new DeleteComponentButton(boundingWidth - 20, 0, this);
+//            subComponents.add(deleteComponentButton);
+//            add(deleteComponentButton);
+//        }
     }
 
     protected Point getBoundingBoxCenter() {
@@ -60,20 +79,40 @@ public abstract class Component2D extends JComponent {
 
     public void select() {
         if(!select) {
-            setBorder(BorderFactory.createDashedBorder(null, 2, 2));
+            //setBorder(BorderFactory.createDashedBorder(null, 2, 2));
+            this.currentColor = selectedColor;
+            SelectHelper.setComponent2D(this);
         } else {
-            setBorder(BorderFactory.createEmptyBorder());
+            this.currentColor = notSelectedColor;
+            //setBorder(BorderFactory.createEmptyBorder());
         }
-        deleteComponentButton.repaint();
+//        if(deleteComponentButton != null) {
+//            deleteComponentButton.setVisible(!select);
+//            deleteComponentButton.repaint();
+//        }
+        this.repaint();
         select = !select;
-        deleteComponentButton.setVisible(select);
-
     }
 
     public void removeSubComponents() {
-        remove(deleteComponentButton);
-        deleteComponentButton = null;
-        revalidate();
-        repaint();
+        System.out.println(subComponents);
+        setBounds(xPosition, yPosition, 0, 0);
+        for(JComponent component: subComponents) {
+            remove(component);
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
+    public void setRotateAngle(int rotateAngle) {
+        if(rotateAngle == 360) {
+            this.rotateAngle = 0;
+            return;
+        }
+        this.rotateAngle = rotateAngle;
+    }
+
+    public int getRotateAngle() {
+        return rotateAngle;
     }
 }

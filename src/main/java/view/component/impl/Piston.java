@@ -1,7 +1,6 @@
 package view.component.impl;
 
 import view.component.Component2D;
-import view.component.label.ComponentNameHelper;
 import view.listeners.MovingAdapter;
 
 import java.awt.*;
@@ -11,16 +10,17 @@ import java.awt.geom.Rectangle2D;
 
 import static view.component.impl.ComponentConstant.COMPONENT_NODE_RADIUS;
 
-public class SlideBlock extends Component2D {
+public class Piston extends Component2D {
+
     private ComponentNode componentNode;
 
-    public SlideBlock(int xPosition, int yPosition) {
+    public Piston(int xPosition, int yPosition) {
         super(xPosition, yPosition, 1.0, 0);
-        MovingAdapter<SlideBlock> movingAdapter = new MovingAdapter<>(this);
+        MovingAdapter<Piston> movingAdapter = new MovingAdapter<>(this);
         addMouseMotionListener(movingAdapter);
         addMouseListener(movingAdapter);
         this.boundingWidth = 140;
-        this.boundingHeight = 110;
+        this.boundingHeight = 140;
         setBounds(xPosition, yPosition, boundingWidth, boundingHeight);
     }
 
@@ -41,7 +41,7 @@ public class SlideBlock extends Component2D {
         Point2D startLinesPrevPoint = null;
 
         if ((rotateAngle >= 0 && rotateAngle < 90) || (rotateAngle >= 180 && rotateAngle < 270)) {
-            if (rotateAngle == 180) {
+            if(rotateAngle == 180) {
                 rotateAngle = 0;
             }
             rectangle2D = new Rectangle2D.Double(
@@ -51,15 +51,23 @@ public class SlideBlock extends Component2D {
                     boundingHeight / 100.0 * 45
             );
             startLinesPrevPoint = drawShelf(graphics, xStart, yStart + boundingHeight / 100.0 * 48, boundingWidth / 100.0 * 70);
+            int tempRotateAngle = rotateAngle;
+            rotateAngle += 180;
+            drawShelf(graphics, xStart + boundingWidth / 100.0 * 70, yStart - boundingHeight / 100.0 * 3, boundingWidth / 100.0 * 70);
+            rotateAngle = tempRotateAngle;
             Line2D line2D = new Line2D.Double(
                     xStart,
                     yStart + boundingHeight / 100.0 * 48,
                     xStart + boundingWidth / 100.0 * 70,
                     yStart + boundingHeight / 100.0 * 48);
 
-
+            Line2D line2D2 = new Line2D.Double(
+                    xStart,
+                    yStart - boundingHeight / 100.0 * 3,
+                    xStart + boundingWidth / 100.0 * 70,
+                    yStart - boundingHeight / 100.0 * 3);
             graphics.draw(line2D);
-
+            graphics.draw(line2D2);
 
         } else {
 
@@ -71,20 +79,30 @@ public class SlideBlock extends Component2D {
                     boundingWidth / 100.0 * 45,
                     boundingHeight / 100.0 * 70
             );
-            startLinesPrevPoint = drawShelf(graphics, xStart - boundingHeight / 100.0 * 3, yStart, boundingHeight / 100.0 * 70);
-
+            startLinesPrevPoint = drawShelf(graphics, xStart  - boundingHeight / 100.0 * 3, yStart, boundingHeight / 100.0 * 70);
+            int tempRotateAngle = rotateAngle;
+            rotateAngle += 180;
+            drawShelf(graphics, xStart + boundingWidth / 100.0 * 48, yStart + boundingHeight / 100.0 * 70, boundingHeight / 100.0 * 70);
+            rotateAngle = tempRotateAngle;
 
             Line2D line2D = new Line2D.Double(
-                    xStart - boundingHeight / 100.0 * 3,
+                    xStart  - boundingHeight / 100.0 * 3,
                     yStart,
-                    xStart - boundingHeight / 100.0 * 3,
+                    xStart  - boundingHeight / 100.0 * 3,
                     yStart + boundingHeight / 100.0 * 70);
 
+            Line2D line2D2 = new Line2D.Double(
+                    xStart + boundingWidth / 100.0 * 48,
+                    yStart,
+                    xStart + boundingWidth / 100.0 * 48,
+                    yStart + boundingHeight / 100.0 * 70);
             graphics.draw(line2D);
+            graphics.draw(line2D2);
             startLinesPrevPoint.setLocation(xStart - 13, yStart - 5);
         }
 
         graphics.draw(rectangle2D);
+
 
 
         g.setColor(Color.BLUE);

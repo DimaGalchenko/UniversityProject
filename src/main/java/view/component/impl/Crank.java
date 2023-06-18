@@ -1,11 +1,14 @@
 package view.component.impl;
 
-import geometry.line.LineUtil;
 import view.component.util.DrawUtil;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Crank extends ConnectionRod {
 
@@ -15,34 +18,46 @@ public class Crank extends ConnectionRod {
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
 
-        Graphics2D graphics2D = (Graphics2D) g;
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        Point2D crankCenter;
-        Point2D firstPoint;
-        Point2D secondPoint;
-        int direction = 0;
-
-        if (firstNode.getPositionRelatedToParent().getY() > secondNode.getPositionRelatedToParent().getY()) {
-            firstPoint = new Point2D.Double(0, boundingHeight);
-            secondPoint = new Point2D.Double(boundingWidth, 0);
-            direction = 1;
+        Line2D line2D;
+        if(firstNode.getPositionRelatedToParent().getY() > secondNode.getPositionRelatedToParent().getY()) {
+            line2D = new Line2D.Double(
+                    PADDING,
+                    boundingHeight + PADDING,
+                    boundingWidth + PADDING,
+                    PADDING
+            );
         } else {
-            firstPoint = new Point2D.Double(0, 0);
-            secondPoint = new Point2D.Double(boundingWidth, boundingHeight);
+            line2D = new Line2D.Double(
+                    PADDING,
+                    PADDING,
+                    boundingWidth + PADDING,
+                    boundingHeight + PADDING
+            );
         }
 
-        drawAngularVelocityVector(graphics2D, firstPoint, secondPoint, direction);
-    }
+        Font font = new Font("Serif", Font.PLAIN, 19);
+        g.setColor(Color.BLUE);
+        g.setFont(font);
+        graphics.drawString(serialNumber,
+                (boundingWidth + PADDING * 2 + 13) / 2,
+                (int) ((boundingHeight + PADDING * 2)  / 2));
+        g.setColor(Color.BLACK);
 
-    private void drawAngularVelocityVector(Graphics2D graphics2D, Point2D point1, Point2D point2, int direction) {
-        if(direction == 0) {
-            DrawUtil.drawArrow(graphics2D, point1.getX(), point1.getY(), point2.getX(), point2.getY());
-        } else {
-            DrawUtil.drawArrow(graphics2D, point2.getX(), point2.getY(), point1.getX(), point1.getY());
+        try {
+            BufferedImage img = ImageIO.read(new File("src/main/resources/refresh.png"));
+
+            graphics.drawImage(img, (boundingWidth + 5) / 2, (int) ((boundingHeight + 5)  / 2), null);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
+        graphics.draw(line2D);
     }
 }
 

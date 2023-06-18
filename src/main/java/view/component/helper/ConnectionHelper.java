@@ -1,14 +1,13 @@
 package view.component.helper;
 
 import view.Window;
-import view.component.Component2D;
+import view.bar.ComponentsBar;
 import view.component.impl.ComponentNode;
 import view.component.impl.ConnectionRod;
 import view.component.impl.Crank;
-import view.listeners.panel.ConstructionPanel;
+import view.panel.ConstructionPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class ConnectionHelper {
             return;
         }
 
-        Component2D component2D = null;
+        JComponent component2D = null;
 
         if(connectionType == ConnectionType.CONNECTION_ROD) {
             component2D = new ConnectionRod(
@@ -60,9 +59,11 @@ public class ConnectionHelper {
                     componentNodes.get(1)
             );
         }
+        System.out.println("Create connection: " + connectionType + ", " + component2D);
 
         if (component2D != null) {
             ConstructionPanel.getInstance().getBuildSpace().add(component2D);
+            ConstructionPanel.getInstance().getBuildSpace().repaint();
             Window.getInstance().repaint();
             component2D.repaint();
             componentNodes.forEach(ComponentNode::setNotSelectedColor);

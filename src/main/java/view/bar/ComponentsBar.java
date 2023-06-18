@@ -7,9 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ComponentsBar extends JPanel {
-
     private static final String[][] IMAGE_SRC_LIST = new String[][]{
             {"triangular-post.png", "post.png"},
             {"component-node.png"},
@@ -21,6 +22,8 @@ public class ComponentsBar extends JPanel {
             {ComponentType.NODE},
             {ComponentType.PISTON, ComponentType.SLIDE}
     };
+
+    public static final List<JButton> buttons = new ArrayList<>();
 
     public ComponentsBar() {
         setPreferredSize(new Dimension(80, 100));
@@ -42,8 +45,16 @@ public class ComponentsBar extends JPanel {
                         handle.exportAsDrag(button, e, TransferHandler.COPY);
                     }
                 });
+                buttons.add(button);
             }
             add(scrollPane);
         }
+        INSTANCE = this;
     }
+
+    public static ComponentsBar getInstance() {
+        return INSTANCE;
+    }
+
+    private static ComponentsBar INSTANCE;
 }

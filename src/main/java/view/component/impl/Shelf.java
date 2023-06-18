@@ -33,8 +33,8 @@ public class Shelf extends Component2D {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         Point2D startDashesPoint = new Point2D.Double(
-                this.boundingHeight / 100.0 * 40, // start from 40% of component height
-                this.boundingWidth / 100.0 * 5 // start from 5% of component width
+                0,//this.boundingHeight / 100.0 * 40, // start from 40% of component height
+                0//this.boundingWidth / 100.0 * 5 // start from 5% of component width
         );
 
         double lengthOfLine = this.boundingWidth / 100.0 * 90;
